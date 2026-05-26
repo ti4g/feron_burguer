@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  /* Sticky gotcha: never use overflow:hidden on ancestors of a sticky
+     element. overflow-x: clip stops horizontal bleed without breaking it. */
+  overflow-x: clip;
+}
+
+body {
+  background-color: #050505;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Readable white text over bright imagery */
+.text-legible {
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.7),
+    0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+/* Fixed radial vignette: dark edges, clean center — lifts floating text */
+.vignette-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 75% 75% at center,
+    rgba(0, 0, 0, 0) 45%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+/* Synesthetic keyword highlight */
+.flavor {
+  color: #e8a33d;
+  font-weight: 600;
+}
+
+/* Custom minimal dark scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2a2a2a;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1a1a1a #050505;
+}
