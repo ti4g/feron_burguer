@@ -160,17 +160,17 @@ export default function BurgerSequence() {
             floating frame's edge, then dissolve over the burger — so the
             container rectangle disappears completely (no visible seam). */}
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[44vh]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[30vh]"
           style={{
             background:
-              "linear-gradient(to bottom, #050505 0%, #050505 56%, rgba(5,5,5,0) 100%)",
+              "linear-gradient(to bottom, #050505 0%, #050505 72%, rgba(5,5,5,0) 100%)",
           }}
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[46vh]"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[32vh]"
           style={{
             background:
-              "linear-gradient(to top, #050505 0%, #050505 54%, rgba(5,5,5,0) 100%)",
+              "linear-gradient(to top, #050505 0%, #050505 68%, rgba(5,5,5,0) 100%)",
           }}
         />
         {/* Side fades only on wider screens — on mobile the frame overflows
@@ -198,7 +198,7 @@ export default function BurgerSequence() {
               <img
                 src="/logo-feron.png"
                 alt="Feron Burger"
-                className="mb-3 h-20 w-20 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:h-24 sm:w-24"
+                className="mb-3 h-28 w-28 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] sm:h-32 sm:w-32"
               />
               <h1 className="text-legible text-5xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl">
                 FERON BURGER
