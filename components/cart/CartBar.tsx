@@ -73,21 +73,26 @@ export default function CartBar() {
                 )}
                 {lines.map((l) => (
                   <div
-                    key={l.item.id}
-                    className="flex items-center justify-between gap-3 py-3"
+                    key={l.id}
+                    className="flex items-center justify-between gap-3 py-3 border-b border-white/[0.02] last:border-b-0"
                   >
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold text-white/90">
                         {l.item.name}
                       </p>
-                      <p className="text-xs text-white/40">
+                      {l.choices && l.choices.length > 0 && (
+                        <p className="text-xs text-amber-brand font-medium mt-0.5 leading-snug break-words">
+                          {l.choices.join(" + ")}
+                        </p>
+                      )}
+                      <p className="text-xs text-white/40 mt-0.5">
                         {formatBRL(l.item.price)} cada
                       </p>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 shrink-0">
                       <button
-                        onClick={() => dec(l.item.id)}
-                        className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20"
+                        onClick={() => dec(l.id)}
+                        className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20 transition-colors"
                       >
                         −
                       </button>
@@ -95,14 +100,15 @@ export default function CartBar() {
                         {l.qty}
                       </span>
                       <button
-                        onClick={() => inc(l.item.id)}
-                        className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20"
+                        onClick={() => inc(l.id)}
+                        className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20 transition-colors"
                       >
                         +
                       </button>
                       <button
-                        onClick={() => remove(l.item.id)}
-                        className="ml-1 text-xs text-white/30 hover:text-white/60"
+                        onClick={() => remove(l.id)}
+                        className="ml-1 flex h-7 w-7 items-center justify-center text-xs text-white/30 hover:text-white/60 hover:bg-white/5 rounded-full transition-all"
+                        title="Remover item"
                       >
                         ✕
                       </button>

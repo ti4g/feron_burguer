@@ -16,7 +16,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ['"DM Sans"', "system-ui", "sans-serif"],
+        display: ["Syne", "system-ui", "sans-serif"],
       },
       dropShadow: {
         legible: "0 2px 12px rgba(0,0,0,0.9)",

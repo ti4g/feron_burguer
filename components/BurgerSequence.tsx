@@ -137,15 +137,20 @@ export default function BurgerSequence() {
     <section ref={wrapperRef} className="relative h-[400vh] w-full">
       {!ready && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-void">
-          <div className="mb-6 h-10 w-10 animate-spin rounded-full border-2 border-white/15 border-t-amber-brand" />
-          <div className="h-[2px] w-48 overflow-hidden rounded bg-white/10">
+          {/* Brand name faded in background */}
+          <p className="mb-10 font-display text-[11px] font-semibold uppercase tracking-[0.45em] text-white/20">
+            Feron Burger
+          </p>
+          {/* Thin progress track */}
+          <div className="h-px w-40 overflow-hidden bg-white/10">
             <div
-              className="h-full bg-amber-brand transition-[width] duration-200"
+              className="h-full bg-amber-brand transition-[width] duration-300 ease-out"
               style={{ width: `${progressPct}%` }}
             />
           </div>
-          <p className="mt-4 text-xs uppercase tracking-[0.3em] text-white/40">
-            Preparando {progressPct}%
+          {/* Percentage */}
+          <p className="mt-5 font-display text-[42px] font-bold leading-none tabular-nums text-white/10">
+            {progressPct}
           </p>
         </div>
       )}
@@ -160,17 +165,17 @@ export default function BurgerSequence() {
             floating frame's edge, then dissolve over the burger — so the
             container rectangle disappears completely (no visible seam). */}
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[30vh]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[22vh]"
           style={{
             background:
-              "linear-gradient(to bottom, #050505 0%, #050505 72%, rgba(5,5,5,0) 100%)",
+              "linear-gradient(to bottom, rgba(8,4,1,0.97) 0%, rgba(8,4,1,0.55) 50%, rgba(5,5,5,0) 100%)",
           }}
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[32vh]"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[24vh]"
           style={{
             background:
-              "linear-gradient(to top, #050505 0%, #050505 68%, rgba(5,5,5,0) 100%)",
+              "linear-gradient(to top, rgba(8,4,1,0.97) 0%, rgba(8,4,1,0.55) 50%, rgba(5,5,5,0) 100%)",
           }}
         />
         {/* Side fades only on wider screens — on mobile the frame overflows
@@ -200,23 +205,23 @@ export default function BurgerSequence() {
                 alt="Feron Burger"
                 className="mb-3 h-28 w-28 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] sm:h-32 sm:w-32"
               />
-              <h1 className="text-legible text-5xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl">
+              <h1 className="text-legible font-display text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl">
                 FERON BURGER
               </h1>
             </div>
           </Fade>
           <Fade progress={smooth} range={[0.28, 0.48]}>
-            <h2 className="text-legible text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            <h2 className="text-legible font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
               Defumado de verdade
             </h2>
           </Fade>
           <Fade progress={smooth} range={[0.54, 0.72]}>
-            <h2 className="text-legible text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            <h2 className="text-legible font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
               O toque secreto
             </h2>
           </Fade>
           <Fade progress={smooth} range={[0.78, 1]}>
-            <h2 className="text-legible text-5xl font-extrabold tracking-tight text-white sm:text-6xl">
+            <h2 className="text-legible font-display text-5xl font-extrabold tracking-tight text-white sm:text-6xl">
               Bateu a fome?
             </h2>
           </Fade>
@@ -244,9 +249,9 @@ export default function BurgerSequence() {
           <Fade progress={smooth} range={[0.78, 1]}>
             <div className="flex flex-col items-center">
               <p className="text-legible text-base text-white/80 sm:text-lg">
-                Peça agora pelo WhatsApp.
+                Monte o seu hambúrguer e peça no WhatsApp.
               </p>
-              <CTA progress={smooth} whatsapp={WHATSAPP} />
+              <CTA progress={smooth} />
             </div>
           </Fade>
         </div>
@@ -289,24 +294,21 @@ function Fade({
 
 function CTA({
   progress,
-  whatsapp,
 }: {
   progress: MotionValue<number>;
-  whatsapp: string;
 }) {
-  const msg = encodeURIComponent("Olá! Quero pedir o Mumu Burger 🍔");
   // Only clickable once the final beat is on screen.
   const pe = useTransform(progress, [0.79, 0.8], ["none", "auto"]);
   return (
-    <motion.a
+    <motion.button
       style={{ pointerEvents: pe as unknown as MotionValue<string> }}
-      href={`https://wa.me/${whatsapp}?text=${msg}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="mt-5 rounded-full bg-amber-brand px-8 py-3 text-sm font-semibold uppercase tracking-wide text-black transition hover:brightness-110"
+      onClick={() => {
+        document.getElementById("app-interface")?.scrollIntoView({ behavior: "smooth" });
+      }}
+      className="mt-5 rounded-full bg-amber-brand px-8 py-3.5 font-display text-sm font-bold uppercase tracking-widest text-black transition hover:brightness-110 hover:shadow-xl hover:shadow-amber-brand/25 cursor-pointer active:scale-95"
     >
-      Pedir no WhatsApp
-    </motion.a>
+      Explorar Cardápio 🍔
+    </motion.button>
   );
 }
 
@@ -317,7 +319,7 @@ function ScrollHint({ progress }: { progress: MotionValue<number> }) {
       style={{ opacity }}
       className="pointer-events-none absolute inset-x-0 bottom-6 flex flex-col items-center"
     >
-      <span className="text-[10px] uppercase tracking-[0.3em] text-white/40">
+      <span className="font-display text-[9px] uppercase tracking-[0.4em] text-white/30">
         Scroll para explorar
       </span>
       <div className="mt-2 h-7 w-4 rounded-full border border-white/20">

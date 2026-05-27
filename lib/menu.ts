@@ -1,4 +1,4 @@
-export type Category = "burgers" | "porcoes" | "bebidas" | "adicionais";
+export type Category = "combos" | "burgers" | "porcoes" | "bebidas" | "adicionais";
 
 export interface MenuItem {
   id: string;
@@ -6,16 +6,41 @@ export interface MenuItem {
   desc?: string;
   price: number; // em reais
   category: Category;
+  badge?: string;
 }
 
 export const CATEGORIES: { id: Category; label: string }[] = [
-  { id: "burgers", label: "Burgers" },
-  { id: "porcoes", label: "Porções" },
-  { id: "bebidas", label: "Bebidas" },
-  { id: "adicionais", label: "Adicionais" },
+  { id: "combos", label: "Combos 🎁" },
+  { id: "burgers", label: "Burgers 🍔" },
+  { id: "porcoes", label: "Porções 🍟" },
+  { id: "bebidas", label: "Bebidas 🥤" },
+  { id: "adicionais", label: "Adicionais 🧀" },
 ];
 
 export const MENU: MenuItem[] = [
+  // ---------- COMBOS ----------
+  {
+    id: "combo-individual",
+    name: "Combo Individual",
+    desc: "1 Burger + 1 Batata Frita P + 1 Refrigerante Lata. (Escolha o burger e a lata, exceto Giga Burger).",
+    price: 45.9,
+    category: "combos",
+  },
+  {
+    id: "combo-casal",
+    name: "Combo Casal",
+    desc: "2 Burgers + 2 Batatas Fritas P + 1 Refrigerante 1L. (Escolha os burgers e o refri, exceto Giga Burger).",
+    price: 88.9,
+    category: "combos",
+  },
+  {
+    id: "combo-familia",
+    name: "Combo Família",
+    desc: "4 Burgers + 1 Batata Flambada G + 1 Refrigerante 1.5L. (Escolha os burgers, refrigerante de Guaraná incluso, exceto Giga Burger).",
+    price: 178.9,
+    category: "combos",
+  },
+
   // ---------- BURGERS ----------
   {
     id: "feron",
@@ -23,6 +48,7 @@ export const MENU: MenuItem[] = [
     desc: "Pão brioche, burger defumado 160g, cheddar, bacon, cebola caramelizada e molho especial.",
     price: 35,
     category: "burgers",
+    badge: "+ PEDIDO",
   },
   {
     id: "giga",
@@ -30,6 +56,7 @@ export const MENU: MenuItem[] = [
     desc: "Pão brioche, duplo burger defumado 160g, duplo cheddar, duplo bacon, alface, tomate e molho especial.",
     price: 48,
     category: "burgers",
+    badge: "O MAIOR",
   },
   {
     id: "tradicional",
@@ -86,7 +113,7 @@ export const MENU: MenuItem[] = [
     id: "batata-flamb-g",
     name: "Batata Flambada G 400g",
     desc: "Cheddar e bacon.",
-    price: 40,
+    price: 46,
     category: "porcoes",
   },
   { id: "anel", name: "Anel de Cebola 120g", price: 7, category: "porcoes" },
@@ -154,9 +181,9 @@ export const MENU: MenuItem[] = [
   { id: "add-bacon", name: "Bacon", price: 5, category: "adicionais" },
   { id: "add-cheddar", name: "Cheddar", price: 3, category: "adicionais" },
   { id: "add-provolone", name: "Provolone", price: 4, category: "adicionais" },
-  { id: "add-cebola-car", name: "Cebola Caramelizada", price: 4, category: "adicionais" },
+  { id: "add-cebola-car", name: "Cebola Caramelizada", price: 3, category: "adicionais" },
   { id: "add-cebola-mel", name: "Cebola Roxa ao Mel", price: 3, category: "adicionais" },
-  { id: "add-anel", name: "Anel de Cebola", price: 4, category: "adicionais" },
+  { id: "add-anel", name: "Anel de Cebola", price: 3, category: "adicionais" },
   { id: "add-doce", name: "Doce de Leite", price: 6, category: "adicionais" },
   { id: "add-alface", name: "Alface", price: 2, category: "adicionais" },
   { id: "add-tomate", name: "Tomate", price: 2, category: "adicionais" },

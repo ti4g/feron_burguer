@@ -11,15 +11,17 @@ import {
 import { MenuItem, formatBRL } from "@/lib/menu";
 
 interface CartLine {
+  id: string;
   item: MenuItem;
   qty: number;
+  choices?: string[];
 }
 
 interface CartState {
   lines: CartLine[];
   count: number;
   total: number;
-  add: (item: MenuItem) => void;
+  add: (item: MenuItem, choices?: string[]) => void;
   inc: (id: string) => void;
   dec: (id: string) => void;
   remove: (id: string) => void;
@@ -32,12 +34,18 @@ const CartContext = createContext<CartState | null>(null);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [map, setMap] = useState<Record<string, CartLine>>({});
 
-  const add = useCallback((item: MenuItem) => {
+  const add = useCallback((item: MenuItem, choices?: string[]) => {
+    // Gera uma chave única baseada no item e nas escolhas (ex: combo-casal-feronburger-coca)
+    const choicesKey = choices && choices.length > 0 
+      ? "-" + choices.map((c) => c.toLowerCase().replace(/[^a-z0-9]/g, "")).sort().join("-")
+      : "";
+    const lineId = `${item.id}${choicesKey}`;
+
     setMap((m) => {
-      const existing = m[item.id];
+      const existing = m[lineId];
       return {
         ...m,
-        [item.id]: { item, qty: existing ? existing.qty + 1 : 1 },
+        [lineId]: { id: lineId, item, qty: existing ? existing.qty + 1 : 1, choices },
       };
     });
   }, []);
@@ -78,10 +86,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     (phone: string) => {
       const header = "*Pedido — Feron Burger* 🍔\n\n";
       const body = lines
-        .map(
-          (l) =>
-            `• ${l.qty}x ${l.item.name} — ${formatBRL(l.qty * l.item.price)}`,
-        )
+        .map((l) => {
+          const choicesStr = l.choices && l.choices.length > 0
+            ? `\n   └ _Opções: ${l.choices.join(" + ")}_`
+            : "";
+          return `• ${l.qty}x *${l.item.name}* — ${formatBRL(l.qty * l.item.price)}${choicesStr}`;
+        })
         .join("\n");
       const footer = `\n\n*Total: ${formatBRL(total)}*`;
       const text = encodeURIComponent(header + body + footer);

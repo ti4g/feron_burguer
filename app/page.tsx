@@ -1,16 +1,14 @@
 import BurgerSequence from "@/components/BurgerSequence";
-import Menu from "@/components/menu/Menu";
+import MainApp from "@/components/MainApp";
 import { CartProvider } from "@/components/cart/CartProvider";
-import CartBar from "@/components/cart/CartBar";
 
 export default function Home() {
   return (
     <CartProvider>
       <main className="bg-void">
         <BurgerSequence />
-        <Menu />
+        <MainApp />
       </main>
-      <CartBar />
     </CartProvider>
   );
 }
