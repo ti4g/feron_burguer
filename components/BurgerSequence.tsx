@@ -10,21 +10,17 @@ import {
   MotionValue,
 } from "framer-motion";
 
-const FRAME_COUNT = 112;
+const FRAME_COUNT = 118;
 const WHATSAPP = "5563999614831";
-// Burger frame height as a fraction of the viewport — keeps it floating
-// as part of a composition rather than filling (and cropping) the screen.
-const HEIGHT_FRAC = 0.55;
 
 function framePath(index: number) {
   const clamped = Math.min(FRAME_COUNT, Math.max(1, index));
-  return `/sequence/ezgif-frame-${String(clamped).padStart(3, "0")}.webp`;
+  return `/sequence/ezgif-frame-${String(clamped).padStart(3, "0")}.jpg`;
 }
 
-/** Scale the frame by HEIGHT, centered, so the whole burger is visible
- *  (never cropped) and floats in the #050505 void. Width may overflow the
- *  screen (only dark background is clipped). */
-function drawFloating(
+/** Cover mode: scale the 9×16 frame to fill the canvas entirely,
+ *  centered, so it occupies the full screen with no letterboxing. */
+function drawCover(
   ctx: CanvasRenderingContext2D,
   img: HTMLImageElement,
   cw: number,
@@ -33,7 +29,7 @@ function drawFloating(
   const iw = img.naturalWidth;
   const ih = img.naturalHeight;
   if (!iw || !ih) return;
-  const scale = (ch * HEIGHT_FRAC) / ih;
+  const scale = Math.max(cw / iw, ch / ih);
   const dw = iw * scale;
   const dh = ih * scale;
   const dx = (cw - dw) / 2;
@@ -114,7 +110,7 @@ export default function BurgerSequence() {
     if (!img || !img.complete || !img.naturalWidth) return;
     if (!force && frameIndex === currentFrameRef.current) return;
     currentFrameRef.current = frameIndex;
-    drawFloating(ctx, img, canvas.width, canvas.height);
+    drawCover(ctx, img, canvas.width, canvas.height);
   };
 
   useMotionValueEvent(smooth, "change", (v) => {
@@ -176,22 +172,6 @@ export default function BurgerSequence() {
           style={{
             background:
               "linear-gradient(to top, rgba(8,4,1,0.97) 0%, rgba(8,4,1,0.55) 50%, rgba(5,5,5,0) 100%)",
-          }}
-        />
-        {/* Side fades only on wider screens — on mobile the frame overflows
-            the sides (no seam), so we skip them to avoid darkening the burger. */}
-        <div
-          className="pointer-events-none absolute inset-y-0 left-0 hidden w-[18vw] lg:block"
-          style={{
-            background:
-              "linear-gradient(to right, #050505 0%, #050505 20%, rgba(5,5,5,0) 100%)",
-          }}
-        />
-        <div
-          className="pointer-events-none absolute inset-y-0 right-0 hidden w-[18vw] lg:block"
-          style={{
-            background:
-              "linear-gradient(to left, #050505 0%, #050505 20%, rgba(5,5,5,0) 100%)",
           }}
         />
 
